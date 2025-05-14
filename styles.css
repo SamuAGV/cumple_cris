@@ -1,0 +1,412 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    background-color: #0c0c2a;
+}
+
+/* Animated background */
+.stars, .twinkling {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.stars {
+    background: #0c0c2a url('https://i.imgur.com/YKY28eT.png') repeat top center;
+    z-index: -2;
+}
+
+.twinkling {
+    background: transparent url('https://i.imgur.com/XYMF4ca.png') repeat top center;
+    z-index: -1;
+    animation: move-twink-back 200s linear infinite;
+}
+
+@keyframes move-twink-back {
+    from {background-position: 0 0;}
+    to {background-position: -10000px 5000px;}
+}
+
+.card {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    height: 85vh;
+    max-height: 800px;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 
+                0 0 30px rgba(255, 64, 129, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, #ff4081, #3f51b5, #4caf50, #ff9800, #9c27b0);
+    z-index: -1;
+    filter: blur(20px);
+    opacity: 0.5;
+    border-radius: 40px;
+}
+
+.card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.title {
+    font-family: 'Pacifico', cursive;
+    font-size: 3.5rem;
+    background: linear-gradient(45deg, #ff4081, #3f51b5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    transform: translateZ(50px);
+}
+
+.message {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateZ(30px);
+}
+
+.message-text {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 10px 0;
+    opacity: 0;
+    font-weight: 600;
+}
+
+/* Ribbon styles */
+.ribbon {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 2;
+}
+
+.ribbon span {
+    position: absolute;
+    display: block;
+    width: 225px;
+    padding: 15px 0;
+    background-color: #ff4081;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.ribbon-top-left {
+    top: -10px;
+    left: -10px;
+}
+
+.ribbon-top-left span {
+    right: -25px;
+    top: 30px;
+    transform: rotate(-45deg);
+}
+
+.ribbon-top-right {
+    top: -10px;
+    right: -10px;
+}
+
+.ribbon-top-right span {
+    left: -25px;
+    top: 30px;
+    transform: rotate(45deg);
+}
+
+/* Sparkles */
+.sparkles {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-image: url('https://i.imgur.com/jDwDRnK.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+}
+
+.sparkles-top-left {
+    top: 20px;
+    left: 20px;
+}
+
+.sparkles-top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.sparkles-bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.sparkles-bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Balloon styles */
+.balloon-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.balloon {
+    position: absolute;
+    width: 60px;
+    height: 70px;
+    border-radius: 50%;
+    bottom: -100px;
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.balloon::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0 0 5px 5px;
+}
+
+.balloon::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.7);
+    top: 15px;
+    left: 15px;
+    border-radius: 50%;
+}
+
+/* Cake styles */
+.cake {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 20px auto;
+    opacity: 0;
+    transform: translateZ(40px);
+}
+
+.cake-base {
+    position: absolute;
+    width: 180px;
+    height: 60px;
+    background: linear-gradient(to right, #f8bbd0, #f48fb1);
+    bottom: 0;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cake-middle {
+    position: absolute;
+    width: 150px;
+    height: 50px;
+    background: linear-gradient(to right, #f48fb1, #ec407a);
+    bottom: 60px;
+    left: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cake-top {
+    position: absolute;
+    width: 120px;
+    height: 40px;
+    background: linear-gradient(to right, #ec407a, #d81b60);
+    bottom: 110px;
+    left: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.candle {
+    position: absolute;
+    width: 10px;
+    height: 30px;
+    background: linear-gradient(to top, #ffd54f, #ffb300);
+    bottom: 150px;
+    left: 85px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.flame {
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    background: linear-gradient(to top, #ff7043, #ff5722);
+    bottom: 30px;
+    left: -2.5px;
+    border-radius: 50% 50% 20% 20%;
+    transform-origin: center bottom;
+    box-shadow: 0 0 10px #ff5722, 0 0 20px #ff9800;
+}
+
+.cake-decoration {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.cake-decoration-1 {
+    background-color: #4caf50;
+    top: 10px;
+    left: 30px;
+}
+
+.cake-decoration-2 {
+    background-color: #3f51b5;
+    top: 20px;
+    right: 40px;
+}
+
+.cake-decoration-3 {
+    background-color: #ff9800;
+    bottom: 20px;
+    left: 50%;
+}
+
+/* Confetti styles */
+.confetti-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+}
+
+/* Buttons */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.celebrate-btn, .replay-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateZ(20px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.celebrate-btn {
+    background: linear-gradient(45deg, #ff4081, #c51162);
+    color: white;
+    font-size: 1.3rem;
+    padding: 15px 30px;
+    letter-spacing: 1px;
+}
+
+.celebrate-btn:hover {
+    background: linear-gradient(45deg, #c51162, #ff4081);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(197, 17, 98, 0.4);
+}
+
+.replay-btn {
+    background: linear-gradient(45deg, #3f51b5, #303f9f);
+    color: white;
+}
+
+.replay-btn:hover {
+    background: linear-gradient(45deg, #303f9f, #3f51b5);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(63, 81, 181, 0.4);
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .message-text {
+        font-size: 1rem;
+    }
+    
+    .cake {
+        transform: scale(0.8) translateZ(40px);
+    }
+    
+    .ribbon span {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+}

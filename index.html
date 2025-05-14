@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+            background: linear-gradient(135deg, #8a2be2, #ff69b4);
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-size: 400% 400%;
+        }
+        
+        .container {
+            padding: 20px;
+            max-width: 100%;
+            z-index: 2;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            background: linear-gradient(to right, #ff5e62, #ff9966, #ffcc33, #33ccff, #9966ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            p {
+                font-size: 1.2rem;
+            }
+        }
+        
+        .cake-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            perspective: 1000px;
+        }
+        
+        @media (max-width: 768px) {
+            .cake-container {
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        .cake {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .cake-base {
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to right, #ff9acd, #ffb6c1, #ff9acd);
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cake-middle {
+            width: 90%;
+            height: 30%;
+            background: linear-gradient(to right, #ff7eb6, #ff69b4, #ff7eb6);
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 60%;
+            left: 5%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cake-top {
+            width: 80%;
+            height: 20%;
+            background: linear-gradient(to right, #ff5ca0, #ff1493, #ff5ca0);
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 90%;
+            left: 10%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .candle {
+            width: 10px;
+            height: 30px;
+            background: linear-gradient(to top, #fdfd96, #ffff00);
+            position: absolute;
+            bottom: 110%;
+            left: calc(50% - 5px);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+        
+        .flame {
+            width: 15px;
+            height: 25px;
+            background: radial-gradient(ellipse at center, #ffff00, #ff6600);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            bottom: 140%;
+            left: calc(50% - 7.5px);
+            transform-origin: center bottom;
+            filter: blur(1px);
+            box-shadow: 0 0 20px #ff6600, 0 0 40px #ff9900, 0 0 60px #ffcc00;
+        }
+        
+        .button {
+            background: linear-gradient(to right, #ff3e88, #ff1493, #ff3e88);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            bottom: -100px;
+            box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        
+        .balloon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 60%);
+        }
+        
+        @media (max-width: 768px) {
+            .balloon {
+                width: 30px;
+                height: 40px;
+            }
+        }
+        
+        .balloon::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.7);
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .star {
+            position: absolute;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        .gift {
+            position: absolute;
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(to right, #ff3366, #ff6699);
+            border-radius: 5px;
+            bottom: 20px;
+            z-index: 1;
+        }
+        
+        .gift::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 15px;
+            background: linear-gradient(to right, #cc0033, #ff0066);
+            border-radius: 5px;
+            top: -7px;
+            left: -5px;
+        }
+        
+        .gift::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ffcc00, #ffff00);
+            top: -7px;
+            left: 20px;
+        }
+        
+        .ribbon {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffcc00;
+            border-radius: 50%;
+            top: -15px;
+            left: 15px;
+            z-index: 2;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            border-radius: 50%;
+            filter: blur(1px);
+            box-shadow: 0 0 10px white, 0 0 20px #ffff00;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        .decoration {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .cake-decoration {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <h1 class="title">¡Feliz Cumpleaños Cris!</h1>
+        <p class="message">Que en este día tan especial, Dios te llene de bendiciones, alegría y mucha paz.</p>
+        <p class="message"><em>"Porque yo sé los planes que tengo para ti —declara el Señor—, planes de bienestar y no de mal, para darte un futuro y una esperanza."</em><br>Jeremías 29:11</p>
+        
+        <div class="cake-container">
+            <div class="cake">
+                <div class="cake-base"></div>
+                <div class="cake-middle"></div>
+                <div class="cake-top"></div>
+                <div class="candle"></div>
+                <div class="flame"></div>
+                
+                <!-- Decoraciones del pastel -->
+                <div class="cake-decoration" style="top: 30%; left: 20%;"></div>
+                <div class="cake-decoration" style="top: 40%; left: 70%;"></div>
+                <div class="cake-decoration" style="top: 60%; left: 30%;"></div>
+                <div class="cake-decoration" style="top: 70%; left: 80%;"></div>
+                <div class="cake-decoration" style="top: 50%; left: 50%;"></div>
+            </div>
+        </div>
+        
+        <button class="button">¡Celebremos!</button>
+    </div>
+    
+    <!-- Añadir 15 globos con diferentes colores -->
+    <div class="balloon" style="left: 5%; background-color: #FF5252;"></div>
+    <div class="balloon" style="left: 12%; background-color: #FF4081;"></div>
+    <div class="balloon" style="left: 20%; background-color: #E040FB;"></div>
+    <div class="balloon" style="left: 28%; background-color: #7C4DFF;"></div>
+    <div class="balloon" style="left: 36%; background-color: #536DFE;"></div>
+    <div class="balloon" style="left: 44%; background-color: #448AFF;"></div>
+    <div class="balloon" style="left: 52%; background-color: #40C4FF;"></div>
+    <div class="balloon" style="left: 60%; background-color: #18FFFF;"></div>
+    <div class="balloon" style="left: 68%; background-color: #64FFDA;"></div>
+    <div class="balloon" style="left: 76%; background-color: #EEFF41;"></div>
+    <div class="balloon" style="left: 84%; background-color: #FFEB3B;"></div>
+    <div class="balloon" style="left: 92%; background-color: #FFC107;"></div>
+    <div class="balloon" style="left: 15%; background-color: #FF9800;"></div>
+    <div class="balloon" style="left: 55%; background-color: #FF5722;"></div>
+    <div class="balloon" style="left: 75%; background-color: #F44336;"></div>
+    
+    <!-- Añadir regalos -->
+    <div class="gift" style="left: 15%;">
+        <div class="ribbon"></div>
+    </div>
+    <div class="gift" style="left: 75%; background: linear-gradient(to right, #3366ff, #6699ff);">
+        <div class="ribbon" style="background: #33ccff;"></div>
+    </div>
+    <div class="gift" style="left: 45%; background: linear-gradient(to right, #cc33ff, #ff99ff);">
+        <div class="ribbon" style="background: #ff66cc;"></div>
+    </div>
+    
+    <!-- Cargar GSAP y Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Crear estrellas
+            for (let i = 0; i < 50; i++) {
+                createStar();
+            }
+            
+            // Crear partículas de fondo
+            for (let i = 0; i < 100; i++) {
+                createParticle();
+            }
+            
+            // Crear destellos
+            for (let i = 0; i < 30; i++) {
+                createSparkle();
+            }
+            
+            // Crear decoraciones
+            for (let i = 0; i < 40; i++) {
+                createDecoration();
+            }
+            
+            // Animación de fondo
+            gsap.to('.background-animation', {
+                background: 'linear-gradient(135deg, #8a2be2, #ff69b4, #ff1493, #9400d3, #8a2be2)',
+                backgroundSize: '400% 400%',
+                duration: 15,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+            
+            // Animación del título
+            gsap.to('.title', {
+                backgroundPosition: '200% center',
+                duration: 3,
+                repeat: -1,
+                ease: 'linear'
+            });
+            
+            // Animación inicial con GSAP
+            const tl = gsap.timeline();
+            
+            tl.from('.title', {
+                y: -100,
+                opacity: 0,
+                duration: 1.5,
+                ease: 'elastic.out(1, 0.3)'
+            })
+            .from('.message', {
+                opacity: 0,
+                y: 20,
+                duration: 1
+            }, '-=0.5')
+            .from('.cake-container', {
+                scale: 0,
+                opacity: 0,
+                duration: 1,
+                ease: 'back.out(1.7)',
+                onComplete: function() {
+                    // Animación continua del pastel
+                    gsap.to('.cake', {
+                        rotationY: 360,
+                        duration: 20,
+                        repeat: -1,
+                        ease: 'linear'
+                    });
+                }
+            }, '-=0.5')
+            .from('.button', {
+                opacity: 0,
+                y: 20,
+                duration: 0.5
+            }, '-=0.3')
+            .from('.gift', {
+                y: 100,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'back.out(1.7)'
+            }, '-=0.3');
+            
+            // Animación de la llama con GSAP
+            gsap.to('.flame', {
+                scaleY: 1.2,
+                scaleX: 0.8,
+                yoyo: true,
+                repeat: -1,
+                duration: 0.5,
+                ease: 'sine.inOut'
+            });
+            
+            // Brillo de la llama
+            gsap.to('.flame', {
+                boxShadow: '0 0 30px #ff6600, 0 0 50px #ff9900, 0 0 70px #ffcc00',
+                repeat: -1,
+                yoyo: true,
+                duration: 1,
+                ease: 'sine.inOut'
+            });
+            
+            // Animación del botón
+            gsap.to('.button::after', {
+                x: '400%',
+                duration: 2,
+                repeat: -1,
+                ease: 'power2.inOut',
+                delay: 1
+            });
+            
+            // Animación de las decoraciones del pastel
+            gsap.to('.cake-decoration', {
+                scale: 1.5,
+                opacity: 0.7,
+                duration: 1,
+                stagger: 0.2,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+            
+            // Animación de los globos con Anime.js
+            anime({
+                targets: '.balloon',
+                translateY: function() {
+                    return -anime.random(300, window.innerHeight);
+                },
+                translateX: function() {
+                    return anime.random(-30, 30);
+                },
+                rotate: function() {
+                    return anime.random(-15, 15);
+                },
+                duration: function() {
+                    return anime.random(10000, 15000);
+                },
+                delay: function() {
+                    return anime.random(0, 5000);
+                },
+                loop: true,
+                easing: 'easeInOutQuad',
+                direction: 'alternate'
+            });
+            
+            // Animación de los regalos
+            gsap.to('.gift', {
+                y: -10,
+                rotation: function() {
+                    return gsap.utils.random(-5, 5);
+                },
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                stagger: 0.3
+            });
+            
+            // Función para crear estrellas
+            function createStar() {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.innerHTML = '★';
+                star.style.color = getRandomColor();
+                star.style.fontSize = gsap.utils.random(10, 30) + 'px';
+                star.style.left = gsap.utils.random(0, 100) + '%';
+                star.style.top = gsap.utils.random(0, 100) + '%';
+                
+                document.body.appendChild(star);
+                
+                gsap.to(star, {
+                    opacity: gsap.utils.random(0.3, 1),
+                    duration: 1,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut',
+                    delay: gsap.utils.random(0, 5)
+                });
+            }
+            
+            // Función para crear partículas de fondo
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = gsap.utils.random(2, 6);
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = gsap.utils.random(0, 100) + '%';
+                particle.style.top = gsap.utils.random(0, 100) + '%';
+                
+                document.body.appendChild(particle);
+                
+                gsap.to(particle, {
+                    x: gsap.utils.random(-100, 100),
+                    y: gsap.utils.random(-100, 100),
+                    opacity: gsap.utils.random(0.3, 0.8),
+                    duration: gsap.utils.random(10, 20),
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut'
+                });
+            }
+            
+            // Función para crear destellos
+            function createSparkle() {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                sparkle.style.left = gsap.utils.random(0, 100) + '%';
+                sparkle.style.top = gsap.utils.random(0, 100) + '%';
+                
+                document.body.appendChild(sparkle);
+                
+                gsap.to(sparkle, {
+                    opacity: 1,
+                    scale: gsap.utils.random(1, 3),
+                    duration: 1,
+                    repeat: -1,
+                    repeatDelay: gsap.utils.random(1, 5),
+                    yoyo: true,
+                    ease: 'sine.inOut'
+                });
+            }
+            
+            // Función para crear decoraciones
+            function createDecoration() {
+                const decoration = document.createElement('div');
+                decoration.className = 'decoration';
+                
+                decoration.style.backgroundColor = getRandomColor();
+                decoration.style.left = gsap.utils.random(0, 100) + '%';
+                decoration.style.top = gsap.utils.random(0, 100) + '%';
+                
+                document.body.appendChild(decoration);
+                
+                gsap.to(decoration, {
+                    x: gsap.utils.random(-50, 50),
+                    y: gsap.utils.random(-50, 50),
+                    rotation: 360,
+                    duration: gsap.utils.random(10, 20),
+                    repeat: -1,
+                    ease: 'none'
+                });
+            }
+            
+            // Función para obtener un color aleatorio
+            function getRandomColor() {
+                const colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#EEFF41', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            // Función para crear confeti
+            function createConfetti() {
+                const colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#EEFF41', '#FFEB3B', '#FFC107'];
+                const shapes = ['circle', 'square', 'triangle'];
+                
+                for (let i = 0; i < 200; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.backgroundColor = color;
+                    
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    if (shape === 'circle') {
+                        confetti.style.borderRadius = '50%';
+                    } else if (shape === 'triangle') {
+                        confetti.style.width = '0';
+                        confetti.style.height = '0';
+                        confetti.style.backgroundColor = 'transparent';
+                        confetti.style.borderLeft = '5px solid transparent';
+                        confetti.style.borderRight = '5px solid transparent';
+                        confetti.style.borderBottom = `10px solid ${color}`;
+                    }
+                    
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = Math.random() * 20 - 20 + 'vh';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    anime({
+                        targets: confetti,
+                        opacity: [0, 1, 0],
+                        translateY: [0, window.innerHeight * 0.8],
+                        translateX: function() {
+                            return anime.random(-100, 100);
+                        },
+                        rotate: function() {
+                            return anime.random(0, 360);
+                        },
+                        scale: function() {
+                            return anime.random(1, 2);
+                        },
+                        duration: function() {
+                            return anime.random(1000, 3000);
+                        },
+                        easing: 'easeOutExpo',
+                        complete: function() {
+                            confetti.remove();
+                        }
+                    });
+                }
+            }
+            
+            // Función para crear explosión de estrellas
+            function createStarBurst(x, y) {
+                for (let i = 0; i < 20; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.innerHTML = '★';
+                    star.style.color = getRandomColor();
+                    star.style.fontSize = gsap.utils.random(10, 20) + 'px';
+                    star.style.left = x + 'px';
+                    star.style.top = y + 'px';
+                    star.style.position = 'absolute';
+                    star.style.opacity = 0;
+                    
+                    document.body.appendChild(star);
+                    
+                    gsap.to(star, {
+                        x: gsap.utils.random(-100, 100),
+                        y: gsap.utils.random(-100, 100),
+                        opacity: 1,
+                        duration: 0.5,
+                        onComplete: function() {
+                            gsap.to(star, {
+                                opacity: 0,
+                                duration: 0.5,
+                                delay: 0.5,
+                                onComplete: function() {
+                                    star.remove();
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+            
+            // Seguimiento del ratón para efectos interactivos
+            document.addEventListener('mousemove', function(e) {
+                // Crear efecto de brillo que sigue al ratón
+                if (Math.random() > 0.9) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = e.pageX + 'px';
+                    sparkle.style.top = e.pageY + 'px';
+                    
+                    document.body.appendChild(sparkle);
+                    
+                    gsap.to(sparkle, {
+                        opacity: 1,
+                        scale: gsap.utils.random(1, 3),
+                        duration: 0.5,
+                        onComplete: function() {
+                            gsap.to(sparkle, {
+                                opacity: 0,
+                                duration: 0.5,
+                                onComplete: function() {
+                                    sparkle.remove();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            
+            // Evento de clic para la celebración
+            document.body.addEventListener('click', function(e) {
+                createConfetti();
+                createStarBurst(e.pageX, e.pageY);
+                
+                // Animación adicional con GSAP al hacer clic
+                gsap.to('.cake', {
+                    rotation: 360,
+                    duration: 1,
+                    ease: 'elastic.out(1, 0.3)'
+                });
+                
+                // Mensaje de felicitación con Anime.js
+                const congratsMessage = document.createElement('div');
+                congratsMessage.textContent = '¡FELICIDADES!';
+                congratsMessage.style.position = 'absolute';
+                congratsMessage.style.fontSize = '3rem';
+                congratsMessage.style.fontWeight = 'bold';
+                congratsMessage.style.color = '#FFEB3B';
+                congratsMessage.style.textShadow = '0 0 10px rgba(255, 235, 59, 0.7)';
+                congratsMessage.style.opacity = '0';
+                congratsMessage.style.zIndex = '10';
+                congratsMessage.style.left = e.pageX + 'px';
+                congratsMessage.style.top = e.pageY + 'px';
+                congratsMessage.style.transform = 'translate(-50%, -50%)';
+                
+                document.body.appendChild(congratsMessage);
+                
+                anime({
+                    targets: congratsMessage,
+                    opacity: [0, 1, 0],
+                    translateY: [-50, -150],
+                    scale: [0.5, 1.5, 0],
+                    duration: 2000,
+                    easing: 'easeOutExpo',
+                    complete: function() {
+                        congratsMessage.remove();
+                    }
+                });
+                
+                // Efecto de ondas
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.borderRadius = '50%';
+                ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+                ripple.style.left = e.pageX + 'px';
+                ripple.style.top = e.pageY + 'px';
+                ripple.style.transform = 'translate(-50%, -50%)';
+                ripple.style.zIndex = '1';
+                
+                document.body.appendChild(ripple);
+                
+                gsap.to(ripple, {
+                    width: '300px',
+                    height: '300px',
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power2.out',
+                    onComplete: function() {
+                        ripple.remove();
+                    }
+                });
+            });
+            
+            // Botón de celebración
+            document.querySelector('.button').addEventListener('click', function(e) {
+                e.stopPropagation(); // Evitar que se active dos veces
+                createConfetti();
+                
+                // Animación del pastel
+                gsap.to('.cake', {
+                    y: -30,
+                    duration: 0.5,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: 'power2.inOut'
+                });
+                
+                // Apagar la vela
+                gsap.to('.flame', {
+                    opacity: 0,
+                    scale: 0,
+                    duration: 0.3,
+                    ease: 'power2.in',
+                    onComplete: function() {
+                        // Después de un tiempo, volver a encender la vela
+                        setTimeout(function() {
+                            gsap.to('.flame', {
+                                opacity: 1,
+                                scale: 1,
+                                duration: 0.5,
+                                ease: 'power2.out'
+                            });
+                        }, 3000);
+                    }
+                });
+                
+                // Mensaje de felicitación
+                const wishMessages = [
+                    '¡Que se cumplan todos tus deseos!',
+                    '¡Feliz cumpleaños!',
+                    '¡Que tengas un día maravilloso!',
+                    '¡Celebra a lo grande!',
+                    '¡Hoy es tu día especial!'
+                ];
+                
+                const randomMessage = wishMessages[Math.floor(Math.random() * wishMessages.length)];
+                
+                const wishMessage = document.createElement('div');
+                wishMessage.textContent = randomMessage;
+                wishMessage.style.position = 'absolute';
+                wishMessage.style.fontSize = '2rem';
+                wishMessage.style.fontWeight = 'bold';
+                wishMessage.style.color = '#FFEB3B';
+                wishMessage.style.textShadow = '0 0 10px rgba(255, 235, 59, 0.7)';
+                wishMessage.style.opacity = '0';
+                wishMessage.style.zIndex = '10';
+                wishMessage.style.left = '50%';
+                wishMessage.style.top = '50%';
+                wishMessage.style.transform = 'translate(-50%, -50%)';
+                
+                document.body.appendChild(wishMessage);
+                
+                anime({
+                    targets: wishMessage,
+                    opacity: [0, 1, 0],
+                    translateY: [50, -50],
+                    scale: [0.5, 1, 0],
+                    duration: 3000,
+                    easing: 'easeOutExpo',
+                    complete: function() {
+                        wishMessage.remove();
+                    }
+                });
+                
+                // Explosión de estrellas desde el botón
+                createStarBurst(e.pageX, e.pageY);
+                
+                // Hacer que los regalos salten
+                gsap.to('.gift', {
+                    y: -50,
+                    stagger: 0.1,
+                    duration: 0.5,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: 'power2.inOut'
+                });
+                
+                // Hacer que los globos se muevan más rápido temporalmente
+                anime({
+                    targets: '.balloon',
+                    translateY: function() {
+                        return -anime.random(300, window.innerHeight * 1.5);
+                    },
+                    translateX: function() {
+                        return anime.random(-50, 50);
+                    },
+                    duration: 3000,
+                    easing: 'easeOutExpo'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
